@@ -2,9 +2,9 @@
 
 class Item {
 public:
-    std::string name;
-    std::string ownerName;
-    std::string ownerCPF;
-    int quantity;
+    std::string produtoNome;
+    std::string clienteNome;
+    std::string clienteCPF;
+    int quantidade;
 };
 

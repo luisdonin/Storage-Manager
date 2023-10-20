@@ -1,79 +1,160 @@
 #include <iostream>
 #include <string>
-#include <list>
+
 #include "item.h"
+#include "list"
 using namespace std;
+void menu() {
+  cout << "1.Cadastrar produto \n";
+  cout << "2. Buscar produto\n";
+  cout << "3. Buscar por nome do clinete \n";
+  cout << "4. Buscar por CPF \n";
+  cout << "5. Alterar informacoes\n";
+  cout << "6. Listar produtos\n";
+  cout << "S. Exit\n";
+}
 
+void listarProdutos(Item* item) {
+  cout << "Produto encontrado!\n";
+  cout << "____________________\n";
+  cout << "Produto: " << item->produtoNome << endl;
+  cout << "Cliente: " << item->clienteNome << endl;
+  cout << "CPF: " << item->clienteCPF << endl;
+  cout << "quantidade: " << item->quantidade << endl;
+}
 
+void alterarProduto(Item* item) {
+  cout << "Produto encontrado!\n";
+  cout << "novo cliente: ";
+  cin >> item->clienteNome;
+  cout << "novo CPF: ";
+  cin >> item->clienteCPF;
+  cout << "quantidade: ";
+  cin >> item->quantidade;
+}
 
 int main() {
-    list<Item> itemList; // create a list to store items
+  list<Item> itemList;  // create a list to store items
 
-    char option;
-    do {
-        cout << "Choose an option:\n";
-        cout << "1. Add new item\n";
-        cout << "2. Search by item\n";
-        cout << "3. Search by owner CPF\n";
-        cout << "S. Exit\n";
-        cin >> option;
+  char opcao;
+  do {
+    menu();
+    cin >> opcao;
 
-        if (option == '1') {
-            Item newItem;
-            cout << "Enter item name: ";
-            cin >> newItem.name;
-            cout << "Enter owner name: ";
-            cin >> newItem.ownerName;
-            cout << "Enter owner CPF: ";
-            cin >> newItem.ownerCPF;
-            cout << "Enter quantity: ";
-            cin >> newItem.quantity;
+    Item newItem;  // declare the variable outside of the if block
 
-            itemList.push_back(newItem); // add new item to the end of the list
-        } else if (option == '2') {
-            string itemName;
-            cout << "Enter item name to search: ";
-            cin >> itemName;
+    if (opcao == '1') {
+      cout << "item: ";
+      cin >> newItem.produtoNome;
+      cout << "Cliente: ";
+      cin >> newItem.clienteNome;
+      cout << "CPF: ";
+      cin >> newItem.clienteCPF;
+      cout << "quantidade: ";
+      cin >> newItem.quantidade;
 
-            bool found = false;
-            for (auto it = itemList.begin(); it != itemList.end(); it++) {
-                if (it->name == itemName) {
-                    cout << "Item found!\n";
-                    cout << "Name: " << it->name << endl;
-                    cout << "Owner name: " << it->ownerName << endl;
-                    cout << "Owner CPF: " << it->ownerCPF << endl;
-                    cout << "Quantity: " << it->quantity << endl;
-                    found = true;
-                    break;
-                }
-            }
+      itemList.push_back(newItem);  // add new item to the end of the list
 
-            if (!found) {
-                cout << "Item not found.\n";
-            }
-        } else if (option == '3') {
-            string ownerCPF;
-            cout << "Enter owner CPF to search: ";
-            cin >> ownerCPF;
+    } else if (opcao == '2') {
+      string nomeProduto;
+      cout << "Produto: ";
+      cin >> nomeProduto;
 
-            bool found = false;
-            for (auto it = itemList.begin(); it != itemList.end(); it++) {
-                if (it->ownerCPF == ownerCPF) {
-                    cout << "Item found!\n";
-                    cout << "Name: " << it->name << endl;
-                    cout << "Owner name: " << it->ownerName << endl;
-                    cout << "Owner CPF: " << it->ownerCPF << endl;
-                    cout << "Quantity: " << it->quantity << endl;
-                    found = true;
-                    break;
-                }
-            }
-
-            if (!found) {
-                cout << "Item not found.\n";
-            }
+      bool encontrado = false;
+      for (auto item = itemList.begin(); item != itemList.end(); item++) {
+        if (item->produtoNome == nomeProduto) {
+          listarProdutos(&(*item));
+          encontrado = true;
+          break;
         }
-    } while (option != 'S' || option != 's');
-    
-    return 0;
+      }
+
+      if (!encontrado) {
+        cout << "Produto nao encontrado.\n";
+      }
+    } else if (opcao == '3') {
+      string clienteNome;
+      cout << "Cliente: ";
+      cin >> clienteNome;
+
+      bool encontrado = false;
+      for (auto it = itemList.begin(); it != itemList.end(); it++) {
+        if (it->clienteNome == clienteNome) {
+          listarProdutos(&(*it));
+          encontrado = true;
+          break;
+        }
+      }
+
+      if (!encontrado) {
+        cout << "Produto nao encontrado.\n";
+      }
+    } else if (opcao == '4') {
+      string clienteCPF;
+      cout << "CPF: ";
+      cin >> clienteCPF;
+
+      bool encontrado = false;
+      for (auto it = itemList.begin(); it != itemList.end(); it++) {
+        if (it->clienteCPF == clienteCPF) {
+          listarProdutos(&(*it));
+          encontrado = true;
+          break;
+        }
+      }
+
+      if (!encontrado) {
+        cout << "Produto nao encontrado.\n";
+      }
+    } else if (opcao == '5') {
+      char subopcao;
+      cout << "1. Produto\n";
+      cout << "2.cliente\n";
+      cin >> subopcao;
+
+      if (subopcao == '1') {
+        string nomeProduto;
+        cout << "Produto: ";
+        cin >> nomeProduto;
+
+        bool encontrado = false;
+        for (auto item = itemList.begin(); item != itemList.end(); item++) {
+          if (item->produtoNome == nomeProduto) {
+            alterarProduto(&(*item));
+            encontrado = true;
+            break;
+          }
+        }
+
+        if (!encontrado) {
+          cout << "Produto nao encontrado.\n";
+        }
+      } else if (subopcao == '2') {
+        string clienteNome;
+        cout << "Cliente: ";
+        cin >> clienteNome;
+
+        bool encontrado = false;
+        for (auto it = itemList.begin(); it != itemList.end(); it++) {
+          if (it->clienteNome == clienteNome) {
+            cout << "Produto encontrado!\n";
+            cout << " novo cliente: ";
+            cin >> it->clienteNome;
+            encontrado = true;
+            break;
+          }
+        }
+
+        if (!encontrado) {
+          cout << "Produto nao encontrado.\n";
+        }
+      }
+    } else if (opcao == '6') {
+      for (auto item = itemList.begin(); item != itemList.end(); item++) {
+        listarProdutos(&(*item));
+      }
+    }
+  } while (opcao != 'S' && opcao != 's');
+
+  return 0;
 }
